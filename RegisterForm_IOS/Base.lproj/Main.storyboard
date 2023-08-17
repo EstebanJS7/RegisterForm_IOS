@@ -141,15 +141,33 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K89-j5-avN">
+                                <rect key="frame" x="20" y="728.66666666666663" width="353" height="40"/>
+                                <color key="backgroundColor" red="0.54188650849999997" green="0.54188650849999997" blue="0.54188650849999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Mnz-NP-SPb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="NotoSansMyanmar-Bold" family="Noto Sans Myanmar" pointSize="18"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="REGISTRARSE">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="sendForm:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UrF-s5-0cx"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.64936405419999998" green="0.1223757789" blue="0.20953306560000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="K89-j5-avN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="3xL-b9-wdf"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="K89-j5-avN" secondAttribute="trailing" constant="20" id="73H-GM-0ZL"/>
                             <constraint firstItem="SKI-hN-87G" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="9kt-zy-BkC"/>
                             <constraint firstItem="iqZ-uB-6yf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="EKQ-tX-LLb"/>
                             <constraint firstItem="iqZ-uB-6yf" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="fko-sh-x7K"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="SKI-hN-87G" secondAttribute="trailing" constant="20" id="lNL-QS-4bs"/>
                             <constraint firstItem="SKI-hN-87G" firstAttribute="top" secondItem="iqZ-uB-6yf" secondAttribute="bottom" constant="20" id="pZq-LX-DDw"/>
+                            <constraint firstItem="K89-j5-avN" firstAttribute="top" secondItem="SKI-hN-87G" secondAttribute="bottom" constant="42" id="qT4-Tr-fbH"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="iqZ-uB-6yf" secondAttribute="trailing" constant="20" id="rML-du-hjm"/>
                         </constraints>
                     </view>

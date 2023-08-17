@@ -88,7 +88,26 @@ class ViewController: UIViewController, UITextFieldDelegate {
         alerta.addAction(accionAceptar)
         present(alerta, animated: true, completion: nil)
     }
-  
+    
+    func mostrarAlertaExito() {
+        let alerta = UIAlertController(title: "Éxito", message: "Los datos han sido enviados correctamente.", preferredStyle: .alert)
+        let accionAceptar = UIAlertAction(title: "Aceptar", style: .default, handler: nil)
+        alerta.addAction(accionAceptar)
+        present(alerta, animated: true, completion: nil)
+    }
+    
+    @IBAction func sendForm(_ sender: UIButton) {
+        if todosLosCamposCompletos() {
+                // Aquí puedes realizar el envío del formulario
+                // por ejemplo, enviar datos a un servidor, etc.
+
+                // Mostrar una alerta de éxito
+                mostrarAlertaExito()
+            } else {
+                mostrarAlertaCamposFaltantes()
+            }
+    }
+    
 }
 
 extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate{
