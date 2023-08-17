@@ -11,11 +11,40 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBOutlet weak var dateTextField: UITextField!
+    @IBOutlet weak var genderTextField: UITextField!
+    @IBOutlet weak var cvTextField: UITextField!
+    @IBOutlet weak var telTextField: UITextField!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var rucTextField: UITextField!
+    
+    let gender = ["Masculino", "Femenino"]
+    let cv = ["Soltero/a", "Casado/a", "Viudo"]
+    
+    var genderPickerView = UIPickerView()
+    var cvPickerView = UIPickerView()
+    
+    
     let datePicker = UIDatePicker()
     override func viewDidLoad() {
         super.viewDidLoad()
         createDatePicker()
-                
+      
+        genderTextField.inputView = genderPickerView
+        cvTextField.inputView = cvPickerView
+        
+        genderTextField.placeholder = "Seleccione una opcion"
+        cvTextField.placeholder = "Seleccione una opcion"
+        
+        genderTextField.textAlignment = .left
+        cvTextField.textAlignment = .left
+        
+        genderPickerView.delegate = self
+        genderPickerView.dataSource = self
+        cvPickerView.delegate = self
+        cvPickerView.dataSource = self
+        
+        genderPickerView.tag = 1
+        cvPickerView.tag = 2
     }
     
     func createToolbar() ->UIToolbar{
@@ -33,7 +62,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         datePicker.maximumDate = Date()
         
-        dateTextField.textAlignment = .center
+        dateTextField.textAlignment = .left
         dateTextField.inputView = datePicker
         dateTextField.inputAccessoryView = createToolbar()
     }
@@ -46,4 +75,58 @@ class ViewController: UIViewController, UITextFieldDelegate {
         self.dateTextField.text = dateFormatter.string(from: datePicker.date)
         self.view.endEditing(true)
     }
+    
+    func todosLosCamposCompletos() -> Bool {
+        // Verifica si todos los campos requeridos tienen texto
+        let camposRequeridos: [UITextField] = [dateTextField, genderTextField, cvTextField, telTextField, emailTextField, rucTextField]
+        return camposRequeridos.allSatisfy { !$0.text!.isEmpty }
+    }
+
+    func mostrarAlertaCamposFaltantes() {
+        let alerta = UIAlertController(title: "Campos incompletos", message: "Por favor, completa todos los campos.", preferredStyle: .alert)
+        let accionAceptar = UIAlertAction(title: "Aceptar", style: .default, handler: nil)
+        alerta.addAction(accionAceptar)
+        present(alerta, animated: true, completion: nil)
+    }
+  
 }
+
+extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate{
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        switch pickerView.tag{
+        case 1:
+            return gender.count
+        case 2:
+            return cv.count
+        default:
+            return 1
+        }
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch pickerView.tag{
+        case 1:
+            return gender[row]
+        case 2:
+            return cv[row]
+        default:
+            return "Datos no encontrados"
+        }
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        switch pickerView.tag{
+        case 1:
+            genderTextField.text = gender[row]
+            genderTextField.resignFirstResponder()
+        case 2:
+            cvTextField.text = gender[row]
+            cvTextField.resignFirstResponder()
+        default:
+            break
+        }
+    }
+}
+
+

@@ -154,7 +154,12 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="cvTextField" destination="hKt-Gw-q3h" id="bxv-S4-59G"/>
                         <outlet property="dateTextField" destination="mRV-eG-1xW" id="Cuo-am-g42"/>
+                        <outlet property="emailTextField" destination="Vw6-WR-dQu" id="6kc-eB-dcr"/>
+                        <outlet property="genderTextField" destination="C19-0F-frY" id="wLV-De-dLx"/>
+                        <outlet property="rucTextField" destination="9lH-8t-Oru" id="a30-gv-c2P"/>
+                        <outlet property="telTextField" destination="dfD-Dy-I5v" id="9b5-td-awB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
