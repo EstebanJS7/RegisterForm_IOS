@@ -23,6 +23,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var genderPickerView = UIPickerView()
     var cvPickerView = UIPickerView()
     
+    var activeTextField: UITextField?
     
     let datePicker = UIDatePicker()
     override func viewDidLoad() {
@@ -31,6 +32,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
             
             genderTextField.inputView = genderPickerView
             cvTextField.inputView = cvPickerView
+        
+            genderTextField.inputAccessoryView = createToolbar()
+            cvTextField.inputAccessoryView = createToolbar()
             
             genderTextField.placeholder = "Seleccione una opción"
             cvTextField.placeholder = "Seleccione una opción"
@@ -43,6 +47,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
             cvPickerView.delegate = self
             cvPickerView.dataSource = self
             
+            dateTextField.delegate = self
+            genderTextField.delegate = self 
+            cvTextField.delegate = self
+            
             genderPickerView.tag = 1
             cvPickerView.tag = 2
             
@@ -50,11 +58,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
             rucTextField.keyboardType = .numbersAndPunctuation
         
         }
+    
+        func textFieldDidBeginEditing(_ textField: UITextField) {
+            activeTextField = textField
+        }
         
         func createToolbar() -> UIToolbar {
             let toolbar = UIToolbar()
             toolbar.sizeToFit()
-            let doneBtn = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
+            let doneBtn = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
             toolbar.setItems([doneBtn], animated: true)
             
             return toolbar
@@ -75,9 +87,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .medium
             dateFormatter.timeStyle = .none
+
+            if activeTextField == dateTextField {
+                dateTextField.text = dateFormatter.string(from: datePicker.date)
+            } else if activeTextField == genderTextField {
+                let selectedGenderRow = genderPickerView.selectedRow(inComponent: 0)
+                genderTextField.text = gender[selectedGenderRow]
+            } else if activeTextField == cvTextField {
+                let selectedCvRow = cvPickerView.selectedRow(inComponent: 0)
+                cvTextField.text = cv[selectedCvRow]
+            }
             
-            self.dateTextField.text = dateFormatter.string(from: datePicker.date)
-            self.view.endEditing(true)
+            activeTextField?.resignFirstResponder()
         }
         
         func todosLosCamposCompletos() -> Bool {
