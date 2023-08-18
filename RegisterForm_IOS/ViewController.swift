@@ -26,149 +26,126 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     let datePicker = UIDatePicker()
     override func viewDidLoad() {
-        super.viewDidLoad()
-        createDatePicker()
-      
-        genderTextField.inputView = genderPickerView
-        cvTextField.inputView = cvPickerView
+            super.viewDidLoad()
+            createDatePicker()
+            
+            genderTextField.inputView = genderPickerView
+            cvTextField.inputView = cvPickerView
+            
+            genderTextField.placeholder = "Seleccione una opción"
+            cvTextField.placeholder = "Seleccione una opción"
+            
+            genderTextField.textAlignment = .left
+            cvTextField.textAlignment = .left
+            
+            genderPickerView.delegate = self
+            genderPickerView.dataSource = self
+            cvPickerView.delegate = self
+            cvPickerView.dataSource = self
+            
+            genderPickerView.tag = 1
+            cvPickerView.tag = 2
+            
+            telTextField.keyboardType = .numberPad
+            rucTextField.keyboardType = .numbersAndPunctuation
         
-        genderTextField.placeholder = "Seleccione una opcion"
-        cvTextField.placeholder = "Seleccione una opcion"
-        
-        genderTextField.textAlignment = .left
-        cvTextField.textAlignment = .left
-        
-        genderPickerView.delegate = self
-        genderPickerView.dataSource = self
-        cvPickerView.delegate = self
-        cvPickerView.dataSource = self
-        
-        genderPickerView.tag = 1
-        cvPickerView.tag = 2
-        
-        telTextField.keyboardType = .numberPad
-    }
-    
-    func createToolbar() ->UIToolbar{
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
-        let doneBtn = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
-        toolbar.setItems([doneBtn], animated: true)
-        
-        return toolbar
-    }
-   
-    func createDatePicker(){
-        datePicker.preferredDatePickerStyle = .wheels
-        datePicker.datePickerMode = .date
-        
-        datePicker.maximumDate = Date()
-        
-        dateTextField.textAlignment = .left
-        dateTextField.inputView = datePicker
-        dateTextField.inputAccessoryView = createToolbar()
-    }
-    
-    @objc func donePressed(){
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        
-        self.dateTextField.text = dateFormatter.string(from: datePicker.date)
-        self.view.endEditing(true)
-    }
-    
-    func isValidPhoneNumber(_ phoneNumber: String) -> Bool {
-        let phoneNumberRegex = "^09[0-9]*$"
-        let phoneNumberTest = NSPredicate(format: "SELF MATCHES %@", phoneNumberRegex)
-        return phoneNumberTest.evaluate(with: phoneNumber)
-    }
-    
-    func isValidEmail(_ email: String) -> Bool {
-        let emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
-        let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegex)
-        return emailTest.evaluate(with: email)
-    }
-    
-    func isValidRUC(_ ruc: String) -> Bool {
-        let rucRegex = "^[0-9]+-[0-9]$"
-        let rucTest = NSPredicate(format: "SELF MATCHES %@", rucRegex)
-        return rucTest.evaluate(with: ruc)
-    }
-    
-    func todosLosCamposCompletos() -> Bool {
-        // Verifica si todos los campos requeridos tienen texto
-        let camposRequeridos: [UITextField] = [dateTextField, genderTextField, cvTextField, telTextField, emailTextField, rucTextField]
-        return camposRequeridos.allSatisfy { !$0.text!.isEmpty }
-    }
-
-    func mostrarAlertaCamposFaltantes() {
-        let alerta = UIAlertController(title: "Campos incompletos", message: "Por favor, completa todos los campos.", preferredStyle: .alert)
-        let accionAceptar = UIAlertAction(title: "Aceptar", style: .default, handler: nil)
-        alerta.addAction(accionAceptar)
-        present(alerta, animated: true, completion: nil)
-    }
-    
-    func mostrarAlertaExito() {
-        let alerta = UIAlertController(title: "Éxito", message: "Los datos han sido enviados correctamente.", preferredStyle: .alert)
-        let accionAceptar = UIAlertAction(title: "Aceptar", style: .default, handler: nil)
-        alerta.addAction(accionAceptar)
-        present(alerta, animated: true, completion: nil)
-    }
-    
-    func mostrarAlertaTelefonoInvalido() {
-        let alerta = UIAlertController(title: "Teléfono inválido", message: "El número de teléfono debe comenzar con '09' y contener solo dígitos.", preferredStyle: .alert)
-        let accionAceptar = UIAlertAction(title: "Aceptar", style: .default, handler: nil)
-        alerta.addAction(accionAceptar)
-        present(alerta, animated: true, completion: nil)
-    }
-    
-    func mostrarAlertaEmailInvalido() {
-        let alerta = UIAlertController(title: "Correo inválido", message: "Por favor, ingresa un correo electrónico válido.", preferredStyle: .alert)
-        let accionAceptar = UIAlertAction(title: "Aceptar", style: .default, handler: nil)
-        alerta.addAction(accionAceptar)
-        present(alerta, animated: true, completion: nil)
-    }
-    
-    func mostrarAlertaRUCInvalido() {
-        let alerta = UIAlertController(title: "RUC inválido", message: "El RUC debe tener el formato correcto, por ejemplo: 4648961-6.", preferredStyle: .alert)
-        let accionAceptar = UIAlertAction(title: "Aceptar", style: .default, handler: nil)
-        alerta.addAction(accionAceptar)
-        present(alerta, animated: true, completion: nil)
-    }
-    
-    func alertaCampos(email: String, telefono: String, ruc:String) -> Bool {
-        let emailValido = isValidEmail(email)
-        let telefonoValido = isValidPhoneNumber(telefono)
-        let rucValido = isValidRUC(ruc)
-        
-        
-        if !telefonoValido {
-            mostrarAlertaTelefonoInvalido()
         }
-        if !emailValido {
-            mostrarAlertaEmailInvalido()
+        
+        func createToolbar() -> UIToolbar {
+            let toolbar = UIToolbar()
+            toolbar.sizeToFit()
+            let doneBtn = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
+            toolbar.setItems([doneBtn], animated: true)
+            
+            return toolbar
         }
-        if !rucValido{
-            mostrarAlertaRUCInvalido()
+        
+        func createDatePicker() {
+            datePicker.preferredDatePickerStyle = .wheels
+            datePicker.datePickerMode = .date
+            
+            datePicker.maximumDate = Date()
+            
+            dateTextField.textAlignment = .left
+            dateTextField.inputView = datePicker
+            dateTextField.inputAccessoryView = createToolbar()
         }
-        return emailValido && telefonoValido && rucValido
-    }
+        
+        @objc func donePressed() {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .medium
+            dateFormatter.timeStyle = .none
+            
+            self.dateTextField.text = dateFormatter.string(from: datePicker.date)
+            self.view.endEditing(true)
+        }
+        
+        func todosLosCamposCompletos() -> Bool {
+            // Verifica si todos los campos requeridos tienen texto
+            let camposRequeridos: [UITextField] = [dateTextField, genderTextField, cvTextField, telTextField, emailTextField, rucTextField]
+            return camposRequeridos.allSatisfy { !$0.text!.isEmpty }
+        }
     
+        func isValidPhoneNumber(_ phoneNumber: String) -> Bool {
+            let phoneNumberRegex = "^09[0-9]*$"
+            let phoneNumberTest = NSPredicate(format: "SELF MATCHES %@", phoneNumberRegex)
+            return phoneNumberTest.evaluate(with: phoneNumber)
+        }
+        
+        func isValidEmail(_ email: String) -> Bool {
+            let emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+            let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+            return emailTest.evaluate(with: email)
+        }
+        
+        func isValidRUC(_ ruc: String) -> Bool {
+            let rucRegex = "^[0-9]+-[0-9]$"
+            let rucTest = NSPredicate(format: "SELF MATCHES %@", rucRegex)
+            return rucTest.evaluate(with: ruc)
+        }
+        
+        func mostrarAlerta(titulo: String, mensaje: String) {
+            let alerta = UIAlertController(title: titulo, message: mensaje, preferredStyle: .alert)
+            let accionAceptar = UIAlertAction(title: "Aceptar", style: .default, handler: nil)
+            alerta.addAction(accionAceptar)
+            present(alerta, animated: true, completion: nil)
+        }
+        
+        func validarCampos() -> Bool {
+            var camposValidos = true
+            
+            let telefono = telTextField.text ?? ""
+            let email = emailTextField.text ?? ""
+            let ruc = rucTextField.text ?? ""
+            
+            if !isValidPhoneNumber(telefono) {
+                mostrarAlerta(titulo: "Teléfono inválido", mensaje: "El número de teléfono debe comenzar con '09' y contener solo dígitos.")
+                camposValidos = false
+            }
+            
+            if !isValidEmail(email) {
+                mostrarAlerta(titulo: "Correo inválido", mensaje: "Por favor, ingresa un correo electrónico válido.")
+                camposValidos = false
+            }
+            
+            if !isValidRUC(ruc) {
+                mostrarAlerta(titulo: "RUC inválido", mensaje: "El RUC debe tener el formato correcto, por ejemplo: 4648961-6.")
+                camposValidos = false
+            }
+            
+            return camposValidos
+        }
+        
     
     
     @IBAction func sendForm(_ sender: UIButton) {
         if todosLosCamposCompletos() {
-            let email = emailTextField.text ?? ""
-            let telefono = telTextField.text ?? ""
-            let ruc = rucTextField.text ?? ""
-            
-            if alertaCampos(email: email, telefono: telefono, ruc: ruc) {
-                mostrarAlertaExito()
-            }
-        } else {
-            mostrarAlertaCamposFaltantes()
-        }
+                   if validarCampos() {
+                       mostrarAlerta(titulo: "Éxito", mensaje: "Los datos han sido enviados correctamente.")
+                   }
+               } else {
+                   mostrarAlerta(titulo: "Campos incompletos", mensaje: "Por favor, completa todos los campos.")
+               }
     }
     
 }
@@ -203,7 +180,7 @@ extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate{
             genderTextField.text = gender[row]
             genderTextField.resignFirstResponder()
         case 2:
-            cvTextField.text = gender[row]
+            cvTextField.text = cv[row]
             cvTextField.resignFirstResponder()
         default:
             break
